@@ -1,16 +1,16 @@
 body {
-padding: 0;
+padding: 10px;
 margin: 0;
 }
 .book-cover {
-width: 85px;
-height: auto;
+width: 83px;
+height: 90px;
 background: url("bookCover.jpg") 0 0/contain no-repeat;
 font-size: 11px;
 color: white;
-padding: 30px 5px;
+padding: 20px 5px;
 text-align: center;
-margin: 5px;
+margin: 9px 12px;
 }
 #output {
 margin: 30px;
@@ -19,13 +19,23 @@ width: 300px;
 height: 300px;
 }
 #bookcase {
-padding: 12px;
+padding: 15px 0px 0px 13px;
 display: flex;
 flex-wrap: wrap;
+align-items: flex-start;
+align-content: flex-start;
 height: 100vh;
-min-width: 300px;
+min-width: 260px;
+position: relative;
+left: 20px;
 background: url("bookshelf2.jpg");
+overflow: hidden;
 }
 #user-input {
 float: left;
+width: 200px;
+text
+}
+h1 {
+margin: 20px 5px;
 }

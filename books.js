@@ -1,6 +1,9 @@
 const titleField = document.querySelector("#bookTitle");
 const authorField = document.querySelector("#bookAuthor");
 const pagesField = document.querySelector("#bookPages");
+const bookCase = document.getElementById("bookcase");
+const yes = document.getElementById("yes");
+const no = document.getElementById("no");
 let title = titleField.value;
 let author = authorField.value;
 let pages = pagesField.value;
@@ -8,12 +11,9 @@ let haveRead = "have read";
 let button = document.querySelector("button");
 let library = [];
 
-const bookCase = document.getElementById("bookcase");
-
-
-//const book1 = new Book("Harry Potter and the Philosopher's Stone", "JK Rowling", 223, "have read");
-//const book2 = new Book("Never Let Me Go", "Kazuo Ishiguro", 288, "unfinished");
-//const book3 = new Book("War and Peace", "Leo Tolstoy", 1255, "have not read");
+const book1 = new Book("Harry Potter and the Philosopher's Stone", "JK Rowling", 223, "have read");
+const book2 = new Book("Never Let Me Go", "Kazuo Ishiguro", 288, "unfinished");
+const book3 = new Book("War and Peace", "Leo Tolstoy", 1255, "have not read");
 
 titleField.oninput = () => {
 	title = titleField.value;
@@ -32,8 +32,7 @@ pagesField.oninput = () => {
 	console.log({pages});
         return pages;
 };
-let yes = document.getElementById("yes");
-let no = document.getElementById("no");
+
 yes.onclick = () => { 
 	haveRead = "have read";
         console.log({haveRead});
@@ -51,25 +50,24 @@ button.addEventListener("click", () => {
 });
 
 function Book(title, author, pages, haveRead) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.haveRead = haveRead;
-    this.info = function() {
-            return `"${title}" 
-            by ${author},
-            ${pages} pages, 
-            ${haveRead}.`
-    }       
-    console.log(this.info());
-    addBookToLibrary(this);
+        this.title = title;   
+        this.author = author;
+        this.pages = pages;
+        this.haveRead = haveRead;
+        this.info = function() {
+                return `"${title}" 
+                by ${author},
+                ${pages} pages, 
+                ${haveRead}.`
+        }       
+        console.log(this.info());
+        addBookToLibrary(this);
 }
 
 function addBookToLibrary(book) {
         library.push(book);  
         console.log({library});
-        displayBook(book);
-  //outputBox.textContent += " " + book.info();  
+        displayBook(book);   
 }
 
 function displayBook(book) {
@@ -80,14 +78,15 @@ function displayBook(book) {
        bookCover.appendChild(coverContent);
        bookcase.appendChild(bookCover);
 }
+
 let deleteArray = [...document.getElementsByClassName("delete")];
 console.log({deleteArray});
 
-        deleteArray.forEach(deleteButton => {
-                deleteButton.addEventListener("click", () => {
-                        for (let i = 0; i < library.length; i++) {
-                        if (deleteButton.parentElement.id == library[i].title) {
-                        library -= library[i];}
-                        }
-                });
+deleteArray.forEach(deleteButton => {
+        deleteButton.addEventListener("click", () => {
+                for (let i = 0; i < library.length; i++) {
+                if (deleteButton.parentElement.id == library[i].title) {
+                library -= library[i];}
+                }
         });
+});
