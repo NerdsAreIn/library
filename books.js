@@ -1,12 +1,15 @@
-let titleField = document.querySelector("#bookTitle");
-let authorField = document.querySelector("#bookAuthor");
-let pagesField = document.querySelector("#bookPages");
+const titleField = document.querySelector("#bookTitle");
+const authorField = document.querySelector("#bookAuthor");
+const pagesField = document.querySelector("#bookPages");
 let title = titleField.value;
 let author = authorField.value;
 let pages = pagesField.value;
 let haveRead = "have read";
 let button = document.querySelector("button");
 let library = [];
+
+const bookCase = document.getElementById("bookcase");
+
 
 //const book1 = new Book("Harry Potter and the Philosopher's Stone", "JK Rowling", 223, "have read");
 //const book2 = new Book("Never Let Me Go", "Kazuo Ishiguro", 288, "unfinished");
@@ -53,12 +56,38 @@ function Book(title, author, pages, haveRead) {
     this.pages = pages;
     this.haveRead = haveRead;
     this.info = function() {
-            return `${title} by ${author}, ${pages} pages, ${haveRead}.`
+            return `"${title}" 
+            by ${author},
+            ${pages} pages, 
+            ${haveRead}.`
     }       
     console.log(this.info());
     addBookToLibrary(this);
 }
 
 function addBookToLibrary(book) {
-  library.push(book);
+        library.push(book);  
+        console.log({library});
+        displayBook(book);
+  //outputBox.textContent += " " + book.info();  
 }
+
+function displayBook(book) {
+       let bookCover = document.createElement("div");
+       bookCover.className = "book-cover";
+       bookCover.id = book.title;
+       let coverContent = document.createTextNode(book.info());
+       bookCover.appendChild(coverContent);
+       bookcase.appendChild(bookCover);
+}
+let deleteArray = [...document.getElementsByClassName("delete")];
+console.log({deleteArray});
+
+        deleteArray.forEach(deleteButton => {
+                deleteButton.addEventListener("click", () => {
+                        for (let i = 0; i < library.length; i++) {
+                        if (deleteButton.parentElement.id == library[i].title) {
+                        library -= library[i];}
+                        }
+                });
+        });

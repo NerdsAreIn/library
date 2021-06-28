@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="books.css" type="text/css">    
 </head>
 <body>
+    <div id="user-input">
     <label>Title<input type="text" id="bookTitle" name="title" value=""></label><br>
     <label>Author<input type="text" id="bookAuthor" name="author" value=""></label><br>
     <label>Pages<input type="text" id="bookPages" name="pages" value=""></label><br>
@@ -14,6 +15,8 @@
     <label for="yes">Yes</label><input type="radio" name="haveRead" id="yes" value="yes">
     <label for="no">No</label><input type="radio" name="haveRead" id="no" value="no"><br>
     <button type="submit">Add New Book</button>
+    </div>
+    <div id="bookcase"></div>
     <script src="books.js">
     </script>
 </body>
