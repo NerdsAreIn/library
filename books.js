@@ -10,6 +10,7 @@ let pages = pagesField.value;
 let haveRead = "have read";
 let button = document.querySelector("button");
 let library = [];
+let deleteArray = [...document.getElementsByClassName("delete")];
 
 const book1 = new Book("Harry Potter and the Philosopher's Stone", "JK Rowling", 223, "have read");
 const book2 = new Book("Never Let Me Go", "Kazuo Ishiguro", 288, "unfinished");
@@ -67,26 +68,40 @@ function Book(title, author, pages, haveRead) {
 function addBookToLibrary(book) {
         library.push(book);  
         console.log({library});
-        displayBook(book);   
+        displayBook(book); 
+        return library;  
 }
 
 function displayBook(book) {
        let bookCover = document.createElement("div");
+       let deleteButton = document.createElement("button");
+       let X = document.createTextNode("X");
+       deleteButton.className = "delete";
+       deleteArray.push(deleteButton);
+       deleteButton.appendChild(X);
+       bookCover.appendChild(deleteButton);
        bookCover.className = "book-cover";
        bookCover.id = book.title;
        let coverContent = document.createTextNode(book.info());
        bookCover.appendChild(coverContent);
        bookcase.appendChild(bookCover);
+       //return deleteArray;             
 }
 
-let deleteArray = [...document.getElementsByClassName("delete")];
-console.log({deleteArray});
+//
 
 deleteArray.forEach(deleteButton => {
-        deleteButton.addEventListener("click", () => {
-                for (let i = 0; i < library.length; i++) {
-                if (deleteButton.parentElement.id == library[i].title) {
-                library -= library[i];}
-                }
+        deleteButton.addEventListener("click", (e) => {
+               console.log(e.target.parentElement.id);
+               //library -= e.target.parentElement;
+               outer: for (let i = 0; i < library.length; ++i) {
+               if (library[i].title == e.target.parentElement.id) {
+                  library.splice(library[i], 1);
+                  console.log({library});
+                  break outer;
+                }         
+               }                                   
+               bookcase.removeChild(e.target.parentElement);
+                
         });
 });

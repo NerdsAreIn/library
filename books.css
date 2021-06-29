@@ -1,22 +1,32 @@
 body {
 padding: 10px;
 margin: 0;
+background-color: #F5F5DC;
+}
+@font-face {
+font-family: "dancing-script";
+src: url("DancingScript.ttf") format("truetype");
+}
+@font-face {
+font-family: "declaration";
+src: url("UsDeclaration.ttf") format("truetype");
+}
+@font-face {
+font-family: "heavy";
+src: url("HeavyRain.ttf") format("truetype");
 }
 .book-cover {
 width: 83px;
 height: 90px;
 background: url("bookCover.jpg") 0 0/contain no-repeat;
-font-size: 11px;
+line-height: 16px;
+font-size: 12px;
 color: white;
-padding: 20px 5px;
+padding: 20px 6px;
 text-align: center;
 margin: 9px 12px;
-}
-#output {
-margin: 30px;
-border: 2px solid black;
-width: 300px;
-height: 300px;
+font-family: "dancing-script";
+position: relative;
 }
 #bookcase {
 padding: 15px 0px 0px 13px;
@@ -27,15 +37,64 @@ align-content: flex-start;
 height: 100vh;
 min-width: 260px;
 position: relative;
-left: 20px;
+left: 30px;
 background: url("bookshelf2.jpg");
 overflow: hidden;
 }
 #user-input {
 float: left;
-width: 200px;
-text
+width: 210px;
+font-size: 16px;
+/*border: 2px solid red;*/
+text-align: left;
 }
 h1 {
-margin: 20px 5px;
+margin: 25px 5px 30px;
+font-family: "declaration";
+font-size: 22px;
+color: #3b0e0e;
+}
+input[type=text] {
+size: 50;
+width: 70%;
+margin: 4px 0px 4px 6px;
+height: 22px;
+font-size: 13px;
+text-align: left;
+}
+input[type="text"]:focus {
+outline: 2px solid brown;
+border: 1px solid #3b0e0e;
+}
+#bookAuthor {
+width: 62%;
+}
+#bookPages {
+width: 66%;
+}
+button {
+margin: 25px 2px;
+height: 30px;
+padding: 3px;
+}
+input[type="radio"] {
+appearance: none;
+border-radius: 50%;
+width: 14px;
+height: 14px;
+border: 2px solid #3b0e0e;
+margin: 0px 12px -2px 8px;
+background-color: #d4d4a9;
+}
+input[type=radio]:active, input[type=radio]:focus, input[type=radio]:checked  {
+background-color: brown;
+}
+.delete {
+position: absolute;
+top: -22px;
+left: 1%;
+height: 20px;
+width: 15px;
+text-align: center;
+vertical-align: middle;
 }
