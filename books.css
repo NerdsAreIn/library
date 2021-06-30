@@ -1,3 +1,6 @@
+* {
+box-sizing: 
+}
 body {
 padding: 10px;
 margin: 0;
@@ -5,24 +8,24 @@ background-color: #F5F5DC;
 }
 @font-face {
 font-family: "dancing-script";
-src: url("DancingScript.ttf") format("truetype");
+src: url("fonts/DancingScript.ttf") format("truetype");
 }
 @font-face {
 font-family: "declaration";
-src: url("UsDeclaration.ttf") format("truetype");
+src: url("fonts/UsDeclaration.ttf") format("truetype");
 }
 @font-face {
 font-family: "heavy";
-src: url("HeavyRain.ttf") format("truetype");
+src: url("fonts/HeavyRain.ttf") format("truetype");
 }
 .book-cover {
-width: 83px;
+width: 84px;
 height: 90px;
-background: url("bookCover.jpg") 0 0/contain no-repeat;
+background: url("images/bookCover.jpg") 0 0/contain no-repeat;
 line-height: 16px;
 font-size: 12px;
 color: white;
-padding: 20px 6px;
+padding: 19px 6px;
 text-align: center;
 margin: 9px 12px;
 font-family: "dancing-script";
@@ -38,7 +41,7 @@ height: 100vh;
 min-width: 260px;
 position: relative;
 left: 30px;
-background: url("bookshelf2.jpg");
+background: url("images/bookshelf2.jpg");
 overflow: hidden;
 }
 #user-input {
@@ -50,8 +53,6 @@ text-align: left;
 }
 h1 {
 margin: 25px 5px 30px;
-font-family: "declaration";
-font-size: 22px;
 color: #3b0e0e;
 }
 input[type=text] {
@@ -91,10 +92,13 @@ background-color: brown;
 }
 .delete {
 position: absolute;
-top: -22px;
-left: 1%;
-height: 20px;
-width: 15px;
+top: -23px;
+left: 2%;
+height: 17px;
+width: 16px;
 text-align: center;
 vertical-align: middle;
+padding: 1px;
+font-size: 13px;
+
 }
