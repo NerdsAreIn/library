@@ -13,7 +13,6 @@ let library = [];
 let deleteArray = [];
 let bookCover;
 let haveReadContainer;
-let haveReadContainers = [];
 let bookCovers = [];
 let toggleButtons = [];
 
@@ -52,44 +51,31 @@ no.onclick = () => {
         return haveRead;
 }
 
+//TODO: the below function works. The problem was executing it upon the creation of every new book. The checkboxes which had an even number of event listeners attached to them weren't working (I suppose because these were cancelling each other out). The toggle function is now working with the static collection of books. Now I need to adapt it for when new books are added.
+
 function createToggleButtons() {
 toggleButtons = Array.from(document.getElementsByClassName("toggle"));
 console.log({toggleButtons});
 toggleButtons.forEach(toggleButton => {
-    toggleButton.addEventListener("input", (e) => {
+    toggleButton.classList.add("hasHandler");
+    if (toggleButton.className.includes("hasHandler")) {
+        toggleButton.removeEventListener("input", changeReadStatus);
+    }
+    toggleButton.addEventListener("input", changeReadStatus);
+    });
+}
+
+function changeReadStatus (e) {
         bookCover = bookCovers.find(cover => cover == e.target.parentElement);
-        console.log({bookCover});
-        //console.log(e.target.parentElement);
         if (bookCover.haveRead == "have not read") {
                 bookCover.haveRead = "have read";
         }                     
         else bookCover.haveRead = "have not read";        
-        //console.log({bookCovers});
-        //console.log(haveReadContainers);
-        //bookCover.childNodes[3].nodeValue = haveRead;
         haveReadContainer = bookCover.childNodes[3];
         bookCover.removeChild(haveReadContainer);
-        //haveReadContainer.nodeValue = haveRead;
-        //Array.from(bookCover.childNodes).pop();
-        //bookCover.removeChild(childNodes[3]);
         haveReadContainer = document.createTextNode(bookCover.haveRead);
         console.log({haveReadContainer});
-        //console.log(haveReadContainer.nodeValue);
         bookCover.appendChild(haveReadContainer);
-       
-/*
-// FIXME: the book swap is currently only working for the last item. Think I will try creating separate text nodes for the other deets and the read status.
-        let bookToRemove = library.findIndex(book => e.target.parentElement.id == book.title);
-        console.log({bookToRemove});
-        library.splice(bookToRemove, 1);
-        console.log(e.target.parentElement.haveRead);
-        e.target.parentElement.remove();
-        let newbook = new Book(e.target.parentElement.id, e.target.parentElement.author, e.target.parentElement.pages, e.target.parentElement.haveRead);
-        //library[bookToRemove] = newbook;
-        console.log({library});
-        */
-        });
-    });
 }
 
 button.addEventListener("click", () => {
@@ -135,14 +121,16 @@ function displayBook(book) {
        bookCover.haveRead = book.haveRead;
        coverContent = document.createTextNode(book.info());
        haveReadContainer = document.createTextNode(bookCover.haveRead);
-       //haveReadContainers.push(haveReadContainer);
        bookCover.appendChild(coverContent);
        bookCover.appendChild(haveReadContainer);
        bookCovers.push(bookCover);
        bookcase.appendChild(bookCover);
        getDeleteArray();
-       createToggleButtons();                
+       createToggleButtons();  
+       //return bookCovers;              
 }
+
+createToggleButtons();
 
 function getDeleteArray() {
         deleteArray = [...document.getElementsByClassName("delete")];
@@ -158,10 +146,15 @@ function getDeleteArray() {
                   break outer;
                 }         
                }                                   
+               //let index = bookCovers.findIndex(cover => cover == e.target.parentElement);
+               //console.log({index});
+              // bookCovers.splice(index, 1);
                e.target.parentElement.remove();
+              // console.log({bookCovers});
                createToggleButtons();
                console.log({toggleButtons});
-               console.log({deleteArray});           
+               console.log({deleteArray});
+               //return bookCovers;           
         });
 });       
         return deleteArray;
