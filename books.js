@@ -4,16 +4,18 @@ const pagesField = document.querySelector("#bookPages");
 const bookCase = document.getElementById("bookcase");
 const yes = document.getElementById("yes");
 const no = document.getElementById("no");
+const button = document.querySelector("#newbook");
 let title = titleField.value;
 let author = authorField.value;
 let pages = pagesField.value;
 let haveRead = "have read";
-let button = document.querySelector("#newbook");
 let library = [];
 let deleteArray = [];
 let bookCover;
-let toggleButtons;
 let haveReadContainer;
+let haveReadContainers = [];
+let bookCovers = [];
+let toggleButtons = [];
 
 const book1 = new Book("Harry Potter and the Philosopher's Stone", "JK Rowling", 223, "have read");
 const book2 = new Book("Never Let Me Go", "Kazuo Ishiguro", 288, "have not read");
@@ -52,19 +54,29 @@ no.onclick = () => {
 
 function createToggleButtons() {
 toggleButtons = Array.from(document.getElementsByClassName("toggle"));
+console.log({toggleButtons});
 toggleButtons.forEach(toggleButton => {
     toggleButton.addEventListener("input", (e) => {
-        if (e.target.parentElement.haveRead == "have not read") {
-                e.target.parentElement.haveRead = "have read";
-                //e.target.parentElement.textContent =  "" + e.target.parentElement.id + " " +                
-                //`${haveRead}.`;
-        }
-        else {
-                e.target.parentElement.haveRead = "have not read";
-        }
-        e.target.parentElement.removeChild(haveReadContainer);
-        haveReadContainer = document.createTextNode(e.target.parentElement.haveRead);
-        e.target.parentElement.appendChild(haveReadContainer);
+        bookCover = bookCovers.find(cover => cover == e.target.parentElement);
+        console.log({bookCover});
+        //console.log(e.target.parentElement);
+        if (bookCover.haveRead == "have not read") {
+                bookCover.haveRead = "have read";
+        }                     
+        else bookCover.haveRead = "have not read";        
+        //console.log({bookCovers});
+        //console.log(haveReadContainers);
+        //bookCover.childNodes[3].nodeValue = haveRead;
+        haveReadContainer = bookCover.childNodes[3];
+        bookCover.removeChild(haveReadContainer);
+        //haveReadContainer.nodeValue = haveRead;
+        //Array.from(bookCover.childNodes).pop();
+        //bookCover.removeChild(childNodes[3]);
+        haveReadContainer = document.createTextNode(bookCover.haveRead);
+        console.log({haveReadContainer});
+        //console.log(haveReadContainer.nodeValue);
+        bookCover.appendChild(haveReadContainer);
+       
 /*
 // FIXME: the book swap is currently only working for the last item. Think I will try creating separate text nodes for the other deets and the read status.
         let bookToRemove = library.findIndex(book => e.target.parentElement.id == book.title);
@@ -76,8 +88,8 @@ toggleButtons.forEach(toggleButton => {
         //library[bookToRemove] = newbook;
         console.log({library});
         */
-});
-});
+        });
+    });
 }
 
 button.addEventListener("click", () => {
@@ -98,9 +110,6 @@ function Book(title, author, pages, haveRead) {
         addBookToLibrary(this);
 }
 
-
-book1.info();
-
 function addBookToLibrary(book) {
         library.push(book);  
         console.log({library});
@@ -116,30 +125,31 @@ function displayBook(book) {
        toggleButton.setAttribute("type", "checkbox"); 
        toggleButton.className = "toggle";
        deleteButton.className = "delete";
+       toggleButtons.push(toggleButton);
        deleteArray.push(deleteButton);
        deleteButton.appendChild(X);
        bookCover.appendChild(toggleButton);
        bookCover.appendChild(deleteButton);
        bookCover.className = "book-cover";
        bookCover.id = book.title;
-       bookCover.author = book.author;
-       bookCover.pages = book.pages; 
        bookCover.haveRead = book.haveRead;
        coverContent = document.createTextNode(book.info());
-       haveReadContainer = document.createTextNode(bookCover.haveRead + ".");
+       haveReadContainer = document.createTextNode(bookCover.haveRead);
+       //haveReadContainers.push(haveReadContainer);
        bookCover.appendChild(coverContent);
        bookCover.appendChild(haveReadContainer);
+       bookCovers.push(bookCover);
        bookcase.appendChild(bookCover);
        getDeleteArray();
-       createToggleButtons();             
+       createToggleButtons();                
 }
 
 function getDeleteArray() {
         deleteArray = [...document.getElementsByClassName("delete")];
         deleteArray.forEach(deleteButton => {
         deleteButton.addEventListener("click", (e) => {
-               console.log(e.target.parentElement.id);
-               console.log(e.target.parentElement);
+               //console.log(e.target.parentElement.id);
+               //console.log(e.target.parentElement);
                outer: for (let i = 0; i < library.length; i++) {
                if (library[i].title == e.target.parentElement.id) {
                   let index = library.indexOf(library[i]);
@@ -148,9 +158,12 @@ function getDeleteArray() {
                   break outer;
                 }         
                }                                   
-               e.target.parentElement.remove();            
+               e.target.parentElement.remove();
+               createToggleButtons();
+               console.log({toggleButtons});
+               console.log({deleteArray});           
         });
-});
+});       
         return deleteArray;
 }
 
