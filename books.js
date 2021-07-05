@@ -8,16 +8,17 @@ const newBookButton = document.querySelector("#newbook");
 let title = titleField.value;
 let author = authorField.value;
 let pages = pagesField.value;
-let haveRead = "have read";
+let haveRead;
 let library = [];
 let deleteArray = [];
 let haveReadContainer;
 let bookCovers = [];
 let toggleButtons = [];
 
-const book1 = new Book("Harry Potter and the Philosopher's Stone", "JK Rowling", 223, "have read");
-const book2 = new Book("Never Let Me Go", "Kazuo Ishiguro", 288, "have not read");
-const book3 = new Book("War and Peace", "Leo Tolstoy", 1255, "have not read");
+// Test Books: 
+//const book1 = new Book("Harry Potter and the Philosopher's Stone", "JK Rowling", 223, "have read");
+//const book2 = new Book("Never Let Me Go", "Kazuo Ishiguro", 288, "have not read");
+//const book3 = new Book("War and Peace", "Leo Tolstoy", 1255, "have not read");
 
 
 titleField.oninput = () => {
@@ -55,15 +56,32 @@ newBookButton.addEventListener("click", () => {
         return book;
 });
 
+//TODO: local storage problems: deleting more than one book at a time creates problems with the library when the page is refreshed - namely, more than the deleted number of books is missing. Also, haven't been able to make haveRead persistent yet.
+
+window.addEventListener("load", () => {
+        library = JSON.parse(window.localStorage.getItem('libraryObject'));
+        library = Array.from(library);
+        library.forEach(book => {
+                book.info = function() {
+                        return "'" + book.title + "', " + book.author + ", " + book.pages + ", ";
+                };
+                displayBook(book);
+        });
+});
+
+function populateStorage() {
+        window.localStorage.setItem('libraryObject', JSON.stringify(library));         
+}
+
 function Book(title, author, pages, haveRead) {
         this.title = title;   
         this.author = author;
         this.pages = pages;
-        this.haveRead = haveRead;
+        this.haveRead = haveRead;     
         this.info = function() {
-                return `"${title}" 
-                by ${author},
-                ${pages} pages, `
+        return `"${title}" 
+        by ${author},
+        ${pages} pages, `
         }
         addBookToLibrary(this);
 }
@@ -71,6 +89,7 @@ function Book(title, author, pages, haveRead) {
 function addBookToLibrary(book) {
         library.push(book);  
         displayBook(book); 
+        populateStorage();
         return library;  
 }
 
@@ -120,11 +139,14 @@ function changeReadStatus (e) {
         if (bookCover.haveRead == "have not read") {
                 bookCover.haveRead = "have read";
         }                     
-        else bookCover.haveRead = "have not read";        
+        else bookCover.haveRead = "have not read";              
         haveReadContainer = bookCover.childNodes[4];
         bookCover.removeChild(haveReadContainer);
         haveReadContainer = document.createTextNode(bookCover.haveRead);
         bookCover.appendChild(haveReadContainer);
+        //localStorage.setItem('haveReadStatus', bookCover.haveRead);     
+        haveRead = bookCover.haveRead;        
+        return haveRead;
 }
 
 function getDeleteArray() {
@@ -134,12 +156,14 @@ function getDeleteArray() {
                         outer: for (let i = 0; i < library.length; i++) {
                                 if (library[i].title == e.target.parentElement.id) {
                                 let index = library.indexOf(library[i]);
-                                library.splice(index, 1);
+                                library.splice(index, 1);                                
                                 break outer;
                                 }         
                         }                                   
                         e.target.parentElement.remove();
-                        createToggleButtons();                         
+                        populateStorage();
+                        createToggleButtons();
+                        //return library;                         
                 });
         });       
         return deleteArray;
