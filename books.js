@@ -59,7 +59,7 @@ newBookButton.addEventListener("click", () => {
 //TODO: local storage problems: deleting more than one book at a time creates problems with the library when the page is refreshed - namely, more than the deleted number of books is missing. Also, haven't been able to make haveRead persistent yet.
 
 window.addEventListener("load", () => {
-        library = JSON.parse(window.localStorage.getItem('libraryObject'));
+        library = JSON.parse(localStorage.getItem('libraryObject'));
         library = Array.from(library);
         library.forEach(book => {
                 book.info = function() {
@@ -67,10 +67,11 @@ window.addEventListener("load", () => {
                 };
                 displayBook(book);
         });
+return library;
 });
 
 function populateStorage() {
-        window.localStorage.setItem('libraryObject', JSON.stringify(library));         
+        localStorage.setItem('libraryObject', JSON.stringify(library));         
 }
 
 function Book(title, author, pages, haveRead) {
@@ -156,14 +157,15 @@ function getDeleteArray() {
                         outer: for (let i = 0; i < library.length; i++) {
                                 if (library[i].title == e.target.parentElement.id) {
                                 let index = library.indexOf(library[i]);
-                                library.splice(index, 1);                                
+                                library.splice(index, 1);
+                                console.log({library});                                                         
                                 break outer;
                                 }         
-                        }                                   
-                        e.target.parentElement.remove();
-                        populateStorage();
-                        createToggleButtons();
-                        //return library;                         
+                        }                               
+                        localStorage.clear();
+                        populateStorage();  
+                        e.target.parentElement.remove();                        
+                        createToggleButtons();                                             
                 });
         });       
         return deleteArray;
