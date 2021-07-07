@@ -8,12 +8,13 @@ const newBookButton = document.querySelector("#newbook");
 let title = titleField.value;
 let author = authorField.value;
 let pages = pagesField.value;
-let haveRead;
+let haveRead = "have read";
 let library = [];
 let deleteArray = [];
 let haveReadContainer;
 let bookCovers = [];
 let toggleButtons = [];
+let readStatus;
 
 // Test Books: 
 //const book1 = new Book("Harry Potter and the Philosopher's Stone", "JK Rowling", 223, "have read");
@@ -61,8 +62,15 @@ newBookButton.addEventListener("click", () => {
 window.addEventListener("load", () => {
         library = JSON.parse(localStorage.getItem('libraryObject'));
         library = Array.from(library);
+        readStatus = JSON.parse(localStorage.getItem("readStatus"));
+        readStatus = [...readStatus];
+        //console.log({readStatus});           
+        let i = 0;
         library.forEach(book => {
-                book.info = function() {
+                        book.haveRead = readStatus[i];
+                        i++;
+                        //console.log({i});
+                        book.info = function() {
                         return "'" + book.title + "', " + book.author + ", " + book.pages + ", ";
                 };
                 displayBook(book);
@@ -71,7 +79,14 @@ return library;
 });
 
 function populateStorage() {
-        localStorage.setItem('libraryObject', JSON.stringify(library));         
+        console.log({library});
+        localStorage.setItem('libraryObject', JSON.stringify(library));
+        readStatus = [];
+        for (let i = 0; i < bookCovers.length; i++) {
+                readStatus[i] = bookCovers[i].haveRead;
+                //readStatus.push(readStatus[i]);
+        }   
+       localStorage.setItem("readStatus", JSON.stringify(readStatus));           
 }
 
 function Book(title, author, pages, haveRead) {
@@ -144,10 +159,10 @@ function changeReadStatus (e) {
         haveReadContainer = bookCover.childNodes[4];
         bookCover.removeChild(haveReadContainer);
         haveReadContainer = document.createTextNode(bookCover.haveRead);
-        bookCover.appendChild(haveReadContainer);
-        //localStorage.setItem('haveReadStatus', bookCover.haveRead);     
-        haveRead = bookCover.haveRead;        
-        return haveRead;
+        bookCover.appendChild(haveReadContainer);           
+        localStorage.clear();
+        populateStorage();        
+        //return haveRead;
 }
 
 function getDeleteArray() {
