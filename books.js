@@ -30,26 +30,22 @@ titleField.oninput = () => {
 
 authorField.oninput = () => {
 	author = authorField.value;
-	console.log({author});
-        return author;
+	return author;
 };
 
 pagesField.oninput = () => {
 	pages = pagesField.value;
-	console.log({pages});
-        return pages;
+	return pages;
 };
 
 yes.onclick = () => { 
 	haveRead = "have read";
-        console.log({haveRead});
         return haveRead;
 }
 
 no.onclick = () => {
 	haveRead = "have not read";
-	console.log({haveRead});
-        return haveRead;
+	return haveRead;
 }
 
 newBookButton.addEventListener("click", () => {
@@ -57,25 +53,24 @@ newBookButton.addEventListener("click", () => {
         return book;
 });
 
-//TODO: local storage problems: deleting more than one book at a time creates problems with the library when the page is refreshed - namely, more than the deleted number of books is missing. Also, haven't been able to make haveRead persistent yet.
-
 window.addEventListener("load", () => {
-        library = JSON.parse(localStorage.getItem('libraryObject'));
-        library = Array.from(library);
-        readStatus = JSON.parse(localStorage.getItem("readStatus"));
-        readStatus = [...readStatus];
-        //console.log({readStatus});           
-        let i = 0;
-        library.forEach(book => {
+        if (library) {
+                library = JSON.parse(localStorage.getItem('libraryObject'));
+                library = Array.from(library);
+                readStatus = JSON.parse(localStorage.getItem("readStatus"));
+                readStatus = [...readStatus];                
+                let i = 0;
+                library.forEach(book => {
                         book.haveRead = readStatus[i];
                         i++;
-                        //console.log({i});
                         book.info = function() {
-                        return "'" + book.title + "', " + book.author + ", " + book.pages + ", ";
-                };
-                displayBook(book);
-        });
-return library;
+                                return "'" + book.title + "', " + book.author + ", " + book.pages + ", ";
+                        };
+                        displayBook(book);
+                });
+                return library;
+        }
+        else return;
 });
 
 function populateStorage() {
@@ -84,9 +79,8 @@ function populateStorage() {
         readStatus = [];
         for (let i = 0; i < bookCovers.length; i++) {
                 readStatus[i] = bookCovers[i].haveRead;
-                //readStatus.push(readStatus[i]);
         }   
-       localStorage.setItem("readStatus", JSON.stringify(readStatus));           
+        localStorage.setItem("readStatus", JSON.stringify(readStatus));           
 }
 
 function Book(title, author, pages, haveRead) {
@@ -95,9 +89,9 @@ function Book(title, author, pages, haveRead) {
         this.pages = pages;
         this.haveRead = haveRead;     
         this.info = function() {
-        return `"${title}" 
-        by ${author},
-        ${pages} pages, `
+                return `"${title}" 
+                by ${author},
+                ${pages} pages, `
         }
         addBookToLibrary(this);
 }
@@ -128,9 +122,8 @@ function displayBook(book) {
        bookCover.appendChild(deleteButton);
        bookCover.className = "book-cover";
        bookCover.id = book.title;
-       bookCover.haveRead = book.haveRead;
        let coverContent = document.createTextNode(book.info());
-       haveReadContainer = document.createTextNode(bookCover.haveRead);
+       haveReadContainer = document.createTextNode(book.haveRead);
        bookCover.appendChild(coverContent);
        bookCover.appendChild(haveReadContainer);
        bookCovers.push(bookCover);
@@ -162,7 +155,6 @@ function changeReadStatus (e) {
         bookCover.appendChild(haveReadContainer);           
         localStorage.clear();
         populateStorage();        
-        //return haveRead;
 }
 
 function getDeleteArray() {
@@ -171,10 +163,9 @@ function getDeleteArray() {
                 deleteButton.addEventListener("click", (e) => {
                         outer: for (let i = 0; i < library.length; i++) {
                                 if (library[i].title == e.target.parentElement.id) {
-                                let index = library.indexOf(library[i]);
-                                library.splice(index, 1);
-                                console.log({library});                                                         
-                                break outer;
+                                        let index = library.indexOf(library[i]);
+                                        library.splice(index, 1);                                                                                              
+                                        break outer;
                                 }         
                         }                               
                         localStorage.clear();

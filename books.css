@@ -7,14 +7,6 @@ background-color: #F5F5DC;
 font-family: "dancing-script";
 src: url("fonts/DancingScript.ttf") format("truetype");
 }
-@font-face {
-font-family: "declaration";
-src: url("fonts/UsDeclaration.ttf") format("truetype");
-}
-@font-face {
-font-family: "heavy";
-src: url("fonts/HeavyRain.ttf") format("truetype");
-}
 .book-cover {
 width: 89px;
 height: 91px;
@@ -45,7 +37,6 @@ overflow: hidden;
 float: left;
 width: 210px;
 font-size: 16px;
-/*border: 2px solid red;*/
 text-align: left;
 }
 h1 {
