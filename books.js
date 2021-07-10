@@ -24,8 +24,7 @@ let readStatus;
 
 titleField.oninput = () => {
 	title = titleField.value;
-	console.log({title});
-        return title;
+	return title;
 };
 
 authorField.oninput = () => {
@@ -53,10 +52,12 @@ newBookButton.addEventListener("click", () => {
         return book;
 });
 
+// NB: The book objects need to have unique values, or the data will not reload properly. So, three copies of one book and two copies of another - two distinct entities - will reload as just two books.
+
 window.addEventListener("load", () => {
+        library = JSON.parse(localStorage.getItem('libraryObject'));                
+        library = Array.from(library);
         if (library.length > 0) {
-                library = JSON.parse(localStorage.getItem('libraryObject'));
-                library = Array.from(library);
                 readStatus = JSON.parse(localStorage.getItem("readStatus"));
                 readStatus = [...readStatus];                
                 let i = 0;
@@ -74,7 +75,6 @@ window.addEventListener("load", () => {
 });
 
 function populateStorage() {
-        console.log({library});
         localStorage.setItem('libraryObject', JSON.stringify(library));
         readStatus = [];
         for (let i = 0; i < bookCovers.length; i++) {
@@ -163,9 +163,9 @@ function getDeleteArray() {
                 deleteButton.addEventListener("click", (e) => {
                         outer: for (let i = 0; i < library.length; i++) {
                                 if (library[i].title == e.target.parentElement.id) {
-                                        let index = library.indexOf(library[i]);
-                                        library.splice(index, 1);                                                                                              
-                                        break outer;
+                                let index = library.indexOf(library[i]);
+                                library.splice(index, 1);
+                                break outer;
                                 }         
                         }                               
                         localStorage.clear();
