@@ -16,11 +16,27 @@ let bookCovers = [];
 let toggleButtons = [];
 let readStatus;
 
+class Book {
+        constructor(title, author, pages, haveRead) {
+        this.title = title;   
+        this.author = author;
+        this.pages = pages;
+        this.haveRead = haveRead; 
+        }
+        info() {
+                return `"${this.title}" 
+                by ${this.author},
+                ${this.pages} pages, `;
+        }
+        wrapperFunction() {
+                addBookToLibrary(this);
+        }
+}
+
 // Test Books: 
 //const book1 = new Book("Harry Potter and the Philosopher's Stone", "JK Rowling", 223, "have read");
 //const book2 = new Book("Never Let Me Go", "Kazuo Ishiguro", 288, "have not read");
 //const book3 = new Book("War and Peace", "Leo Tolstoy", 1255, "have not read");
-
 
 titleField.oninput = () => {
 	title = titleField.value;
@@ -49,6 +65,7 @@ no.onclick = () => {
 
 newBookButton.addEventListener("click", () => {
 	let book = new Book(title, author, pages, haveRead);
+        book.wrapperFunction();
         return book;
 });
 
@@ -59,7 +76,7 @@ window.addEventListener("load", () => {
         library = Array.from(library);
         if (library.length > 0) {
                 readStatus = JSON.parse(localStorage.getItem("readStatus"));
-                readStatus = [...readStatus];                
+                readStatus = [...readStatus];                              
                 let i = 0;
                 library.forEach(book => {
                         book.haveRead = readStatus[i];
@@ -75,25 +92,12 @@ window.addEventListener("load", () => {
 });
 
 function populateStorage() {
-        localStorage.setItem('libraryObject', JSON.stringify(library));
+        localStorage.setItem('libraryObject', JSON.stringify(library));         
         readStatus = [];
         for (let i = 0; i < bookCovers.length; i++) {
                 readStatus[i] = bookCovers[i].haveRead;
-        }   
+        }  
         localStorage.setItem("readStatus", JSON.stringify(readStatus));           
-}
-
-function Book(title, author, pages, haveRead) {
-        this.title = title;   
-        this.author = author;
-        this.pages = pages;
-        this.haveRead = haveRead;     
-        this.info = function() {
-                return `"${title}" 
-                by ${author},
-                ${pages} pages, `
-        }
-        addBookToLibrary(this);
 }
 
 function addBookToLibrary(book) {
@@ -122,8 +126,9 @@ function displayBook(book) {
        bookCover.appendChild(deleteButton);
        bookCover.className = "book-cover";
        bookCover.id = book.title;
+       bookCover.haveRead = book.haveRead;
        let coverContent = document.createTextNode(book.info());
-       haveReadContainer = document.createTextNode(book.haveRead);
+       haveReadContainer = document.createTextNode(bookCover.haveRead);
        bookCover.appendChild(coverContent);
        bookCover.appendChild(haveReadContainer);
        bookCovers.push(bookCover);
@@ -148,13 +153,13 @@ function changeReadStatus (e) {
         if (bookCover.haveRead == "have not read") {
                 bookCover.haveRead = "have read";
         }                     
-        else bookCover.haveRead = "have not read";              
+        else bookCover.haveRead = "have not read";       
         haveReadContainer = bookCover.childNodes[4];
         bookCover.removeChild(haveReadContainer);
         haveReadContainer = document.createTextNode(bookCover.haveRead);
-        bookCover.appendChild(haveReadContainer);           
+        bookCover.appendChild(haveReadContainer);       
         localStorage.clear();
-        populateStorage();        
+        populateStorage();              
 }
 
 function getDeleteArray() {
