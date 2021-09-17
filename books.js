@@ -131,7 +131,7 @@ function displayBook(book) {
        bookCover.className = "book-cover";
        bookCover.id = book.title;
        bookCover.haveRead = book.haveRead;
-       let coverContent = document.createTextNode(book.info());
+       let coverContent = document.createTextNode(this.info());
        haveReadContainer = document.createTextNode(bookCover.haveRead);
        bookCover.appendChild(coverContent);
        bookCover.appendChild(haveReadContainer);
