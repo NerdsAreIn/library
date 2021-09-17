@@ -28,9 +28,9 @@ class Book {
                 by ${this.author},
                 ${this.pages} pages, `;
         }
-        wrapperFunction(book) {
-                addBookToLibrary(book);
-        }
+        //wrapperFunction(book) {
+        //        addBookToLibrary(book);
+        //}
 }
 
 // Test Books: 
@@ -65,7 +65,7 @@ no.onclick = () => {
 
 newBookButton.addEventListener("click", () => {
 	let book = new Book(title, author, pages, haveRead);
-        book.wrapperFunction(this);
+        book.addBookToLibrary(this);
         return book;
 });
 
