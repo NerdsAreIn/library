@@ -73,7 +73,7 @@ newBookButton.addEventListener("click", () => {
 
 window.addEventListener("load", () => {
         library = JSON.parse(localStorage.getItem('libraryObject'));                
-        library = Array.from(library);
+        library = [...library];
         if (library.length > 0) {
                 readStatus = JSON.parse(localStorage.getItem("readStatus"));
                 readStatus = [...readStatus];                              
