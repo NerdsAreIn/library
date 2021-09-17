@@ -106,7 +106,7 @@ function populateStorage() {
 
 function addBookToLibrary(book) {
         library.push(book);  
-        displayBook(book); 
+        displayBook(this); 
         populateStorage();
         return library;  
 }
