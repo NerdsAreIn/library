@@ -72,6 +72,7 @@ newBookButton.addEventListener("click", () => {
 // NB: The book objects need to have unique values, or the data will not reload properly. So, three copies of one book and two copies of another - two distinct entities - will reload as just two books.
 
 window.addEventListener("load", () => {
+	if (window.localStorage.getItem('libraryObject')) {
 	library = JSON.parse(localStorage.getItem('libraryObject'));
 	if (library.keys.length > 0) {
         library = Array.from(library);
@@ -89,6 +90,7 @@ window.addEventListener("load", () => {
                 });
                 return library;
         }
+	}
 	}
         else return;
 });
