@@ -21,15 +21,16 @@ class Book {
         this.title = title;   
         this.author = author;
         this.pages = pages;
-        this.haveRead = haveRead; 
+        this.haveRead = haveRead;
+               
         }
+
         info() {
-                return `"${this.title}" 
-                by ${this.author},
-                ${this.pages} pages, `;
-        }
-        wrapperFunction(book) {
-                addBookToLibrary(book);
+                return `"${this.title}" by ${this.author}, ${this.pages} pages, `;
+        };
+
+        wrapperFunction() {
+                addBookToLibrary(this);
         }
 }
 
@@ -65,6 +66,8 @@ no.onclick = () => {
 
 newBookButton.addEventListener("click", () => {
 	let book = new Book(title, author, pages, haveRead);
+        book.info = book.info();
+        console.log(book.info);
         book.wrapperFunction(this);
         return book;
 });
@@ -73,26 +76,24 @@ newBookButton.addEventListener("click", () => {
 
 window.addEventListener("load", () => {
 	if (window.localStorage.getItem('libraryObject')) {
-	library = JSON.parse(localStorage.getItem('libraryObject'));
-	if (library.keys.length > 0) {
-        library = Array.from(library);
-        if (library.length > 0) {
-                readStatus = JSON.parse(localStorage.getItem("readStatus"));
-                readStatus = [...readStatus];                              
-                let i = 0;
-                library.forEach(book => {
-                        book.haveRead = readStatus[i];
-                        i++;
-                        book.info = function() {
-                                return "'" + book.title + "', " + book.author + ", " + book.pages + ", ";
-                        };
-                        displayBook(book);
-                });
-                return library;
-        }
+	        library = JSON.parse(localStorage.getItem('libraryObject'));
+	        library = Array.from(library);
+                if (library.length > 0) {
+                        readStatus = JSON.parse(localStorage.getItem("readStatus"));
+                        readStatus = [...readStatus];                              
+                        let i = 0;
+                        library.forEach(book => {
+                                book.haveRead = readStatus[i];
+                                i++;
+                                book.info = function() {
+                                        return "'" + book.title + "', " + book.author + ", " + book.pages + ", ";
+                                };
+                                displayBook(book);
+                        });
+                        return library;
+                }
 	}
-	}
-        else return;
+	else return;
 });
 
 function populateStorage() {
@@ -106,7 +107,7 @@ function populateStorage() {
 
 function addBookToLibrary(book) {
         library.push(book);  
-        displayBook(this); 
+        displayBook(book); 
         populateStorage();
         return library;  
 }
@@ -131,12 +132,12 @@ function displayBook(book) {
        bookCover.className = "book-cover";
        bookCover.id = book.title;
        bookCover.haveRead = book.haveRead;
-       let coverContent = document.createTextNode(this.info());
+       let coverContent = document.createTextNode(book.info);
        haveReadContainer = document.createTextNode(bookCover.haveRead);
        bookCover.appendChild(coverContent);
        bookCover.appendChild(haveReadContainer);
        bookCovers.push(bookCover);
-       bookcase.appendChild(bookCover);
+       bookCase.appendChild(bookCover);
        getDeleteArray();
        createToggleButtons();                 
 }
