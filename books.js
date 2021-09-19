@@ -85,9 +85,6 @@ window.addEventListener("load", () => {
                         library.forEach(book => {
                                 book.haveRead = readStatus[i];
                                 i++;
-                                book.info = function() {
-                                        return "'" + book.title + "', " + book.author + ", " + book.pages + ", ";
-                                };
                                 displayBook(book);
                         });
                         return library;
