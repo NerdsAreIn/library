@@ -21,8 +21,7 @@ class Book {
         this.title = title;   
         this.author = author;
         this.pages = pages;
-        this.haveRead = haveRead;
-               
+        this.haveRead = haveRead;               
         }
 
         info() {
@@ -67,7 +66,6 @@ no.onclick = () => {
 newBookButton.addEventListener("click", () => {
 	let book = new Book(title, author, pages, haveRead);
         book.info = book.info();
-        console.log(book.info);
         book.wrapperFunction(this);
         return book;
 });
@@ -151,7 +149,7 @@ toggleButtons.forEach(toggleButton => {
 }
 
 function changeReadStatus (e) {
-        bookCover = bookCovers.find(cover => cover == e.target.parentElement);
+        const bookCover = bookCovers.find(cover => cover == e.target.parentElement);
         if (bookCover.haveRead == "have not read") {
                 bookCover.haveRead = "have read";
         }                     
@@ -170,9 +168,9 @@ function getDeleteArray() {
                 deleteButton.addEventListener("click", (e) => {
                         outer: for (let i = 0; i < library.length; i++) {
                                 if (library[i].title == e.target.parentElement.id) {
-                                let index = library.indexOf(library[i]);
-                                library.splice(index, 1);
-                                break outer;
+                                        let index = library.indexOf(library[i]);
+                                        library.splice(index, 1);
+                                        break outer;
                                 }         
                         }                               
                         localStorage.clear();
