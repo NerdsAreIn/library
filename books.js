@@ -107,23 +107,35 @@ function addBookToLibrary(book) {
         return library;  
 }
 
+function createDeleteButton() {
+        const deleteButton = document.createElement("button");
+        const X = document.createTextNode("X");
+        deleteButton.className = "delete";
+        deleteArray.push(deleteButton);
+        deleteButton.appendChild(X);
+        return deleteButton;
+}
+ 
+function createToggleButton() {
+       const toggleButton = document.createElement("input");      
+       toggleButton.setAttribute("type", "checkbox");      
+       toggleButton.className = "toggle";      
+       toggleButtons.push(toggleButton);  
+       return toggleButton; 
+}
+
+function createToggleLabel() {
+        const toggleLabel = document.createElement("label");
+        toggleLabel.textContent = "Read?";
+        toggleLabel.className = "toggleLabel";
+        return toggleLabel;
+}
+
 function displayBook(book) {
-       const bookCover = document.createElement("div");
-       const deleteButton = document.createElement("button");
-       const X = document.createTextNode("X");
-       const toggleButton = document.createElement("input");
-       const toggleLabel = document.createElement("label");
-       toggleLabel.textContent = "Read?";
-       toggleButton.setAttribute("type", "checkbox");
-       toggleLabel.className = "toggleLabel";
-       toggleButton.className = "toggle";
-       deleteButton.className = "delete";
-       toggleButtons.push(toggleButton);
-       deleteArray.push(deleteButton);
-       deleteButton.appendChild(X);
-       bookCover.appendChild(toggleLabel);
-       bookCover.appendChild(toggleButton); 
-       bookCover.appendChild(deleteButton);
+       const bookCover = document.createElement("div");           
+       bookCover.appendChild(createToggleLabel());
+       bookCover.appendChild(createToggleButton()); 
+       bookCover.appendChild(createDeleteButton());
        bookCover.className = "book-cover";
        bookCover.id = book.title;
        bookCover.haveRead = book.haveRead;
